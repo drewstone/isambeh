@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import getWeb3 from './utils/getWeb3'
 
 import Landing from './Landing'
+import LoadingPage from './LoadingPage'
 // import StudentSignup from './StudentSignup'
 // import FunderSignup from './FunderSignup'
 // import SideBar from './SideBar'
@@ -14,40 +15,40 @@ import Landing from './Landing'
 // import FunderHome from './FunderHome'
 
 class App extends Component {
-  // state = {
-  //   web3: null,
-  //   AccountsInstance: null,
-  //   accounts: null
-  // }
+  state = {
+    web3: null,
+    // AccountsInstance: null,
+    // accounts: null
+  }
 
-  // async componentWillMount() {
-  //   try {
-  //     const results = await getWeb3;
-  //     this.setState({ web3: results.web3 })
+  async componentWillMount() {
+    try {
+      const results = await getWeb3;
+      this.setState({ web3: results.web3 })
 
-  //     // configure and include the smart contract
-  //     const contract = require('truffle-contract')
-  //     const Accounts = contract(AccountsContract)
+      // // configure and include the smart contract
+      // const contract = require('truffle-contract')
+      // const Accounts = contract(AccountsContract)
       
-  //     Accounts.setProvider(this.state.web3.currentProvider)
+      // Accounts.setProvider(this.state.web3.currentProvider)
     
-  //     // Get accounts.
-  //     this.state.web3.eth.getAccounts(async (error, accounts) => {
-  //       const instance = await Accounts.deployed();
-  //       this.setState({ accounts: accounts, AccountsInstance: instance });
-  //     })
-  //   } catch (e) {
-  //     console.log('Error finding web3.')
-  //   }
-  // }
+      // // Get accounts.
+      // this.state.web3.eth.getAccounts(async (error, accounts) => {
+      //   const instance = await Accounts.deployed();
+      //   this.setState({ accounts: accounts, AccountsInstance: instance });
+      // })
+    } catch (e) {
+      console.log('Error finding web3.')
+    }
+  }
 
   render() {
     return (
       <Router>
-        <div>
+        { this.state.web3 === null ? <LoadingPage /> : <div>
           <Route exact path="/" render={(props) => ( <Landing {...props} {...this.state} /> )} />
           {/*<Route exact path="/student/signup" render={(props) => ( <StudentSignup {...props} {...this.state} /> )} />*/}
-        </div>
+        </div> }
       </Router>
     )
   }
